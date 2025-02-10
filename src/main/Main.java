@@ -1,9 +1,13 @@
+package main;
+
+import classes.ScreenKeyboard;
+import controllers.operationsController;
+
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -16,10 +20,11 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
 
     public static int WIDTH = 400, HEIGHT = 600;
 
-    int num1 = 0;
-    String num2 = "0";
-    String operador = "+";
+    public int num1 = 0;
+    String numVisor = "0";
+    public String operator = "+";
     ScreenKeyboard keyboard;
+    static operationsController operationsC = new operationsController();
 
 
     public Main() {
@@ -35,7 +40,7 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
         JFrame frame = new JFrame();
 
         frame.add(main);
-        frame.setTitle("Calculadora");
+        frame.setTitle("Calculator");
         frame.setLocation(1000,200);
 
         frame.pack();
@@ -64,7 +69,7 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
         g.fillRect(0,100,WIDTH,HEIGHT-100);
         g.setFont(new Font("Comic Sans", Font.PLAIN, 100));
         g.setColor(Color.black);
-        g.drawString(num2, 0, 90);
+        g.drawString(numVisor, 0, 90);
 
         keyboard.render(g);
 
@@ -104,89 +109,50 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
                 || e.getKeyCode() == KeyEvent.VK_NUMPAD3 || e.getKeyCode() == KeyEvent.VK_NUMPAD4 || e.getKeyCode() == KeyEvent.VK_NUMPAD5
                 || e.getKeyCode() == KeyEvent.VK_NUMPAD6 || e.getKeyCode() == KeyEvent.VK_NUMPAD7 || e.getKeyCode() == KeyEvent.VK_NUMPAD8
                 || e.getKeyCode() == KeyEvent.VK_NUMPAD9) {
-            if(num2=="0") {
-                num2 = String.valueOf(e.getKeyChar());
+            if(numVisor.equals("0")) {
+                numVisor = String.valueOf(e.getKeyChar());
             }else {
-                num2 = num2+e.getKeyChar();
+                numVisor = numVisor+e.getKeyChar();
             }
         }
-        if(e.getKeyCode() == KeyEvent.VK_ADD) {
-            if(num2!="0") {
-                if(operador == "+") {
-                    num1+=Integer.valueOf(num2);
-                }else if(operador == "-") {
-                    num1-=Integer.valueOf(num2);
-                }else if(operador == "*") {
-                    num1*=Integer.valueOf(num2);
-                }else if(operador == "/") {
-                    num1/=Integer.valueOf(num2);
-                }
-                num2 = "0";
-                operador = "+";
+        if(e.getKeyCode() == KeyEvent.VK_ADD || e.getKeyCode() == KeyEvent.VK_P) {
+            if(numVisor!="0") {
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = "0";
+                operator = "+";
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_SUBTRACT) {
-            if(num2!="0") {
-                if(operador == "+") {
-                    num1+=Integer.valueOf(num2);
-                }else if(operador == "-") {
-                    num1-=Integer.valueOf(num2);
-                }else if(operador == "*") {
-                    num1*=Integer.valueOf(num2);
-                }else if(operador == "/") {
-                    num1/=Integer.valueOf(num2);
-                }
-                num2 = "0";
-                operador = "-";
+            if(numVisor!="0") {
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = "0";
+                operator = "-";
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_MULTIPLY) {
-            if(num2!="0") {
-                if(operador == "+") {
-                    num1+=Integer.valueOf(num2);
-                }else if(operador == "-") {
-                    num1-=Integer.valueOf(num2);
-                }else if(operador == "*") {
-                    num1*=Integer.valueOf(num2);
-                }else if(operador == "/") {
-                    num1/=Integer.valueOf(num2);
-                }
-                num2 = "0";
-                operador = "*";
+            if(numVisor!="0") {
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = "0";
+                operator = "*";
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_DIVIDE) {
-            if(num2!="0") {
-                if(operador == "+") {
-                    num1+=Integer.valueOf(num2);
-                }else if(operador == "-") {
-                    num1-=Integer.valueOf(num2);
-                }else if(operador == "*") {
-                    num1*=Integer.valueOf(num2);
-                }else if(operador == "/") {
-                    num1/=Integer.valueOf(num2);
-                }
-                num2 = "0";
-                operador = "/";
+            if(numVisor!="0") {
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = "0";
+                operator = "/";
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if(num2!="0") {
-                if(operador == "+") {
-                    num1+=Integer.valueOf(num2);
-                }else if(operador == "-") {
-                    num1-=Integer.valueOf(num2);
-                }else if(operador == "*") {
-                    num1*=Integer.valueOf(num2);
-                }else if(operador == "/") {
-                    num1/=Integer.valueOf(num2);
-                }
-                num2 = String.valueOf(num1);
+            if(numVisor!="0") {
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = String.valueOf(num1);
                 num1 = 0;
+                operationsC.res = 0;
             }
         }
         if(e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
-            num2=num2.substring(0, num2.length()-1);
+            numVisor=numVisor.substring(0, numVisor.length()-1);
         }
     }
 
