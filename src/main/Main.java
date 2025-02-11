@@ -195,6 +195,12 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
                 numVisor=numVisor.substring(0, numVisor.length()-1);
             } else if (key.equals("+/-")) {
                 numVisor = String.valueOf(Integer.parseInt(numVisor)*-1);
+            } else if (key.equals("%")) {
+                numVisor = numVisor+"%";
+            } else if (key.equals(".")) {
+                if (!numVisor.contains(".")){
+                    numVisor=numVisor+".";
+                }
             }
         }
 
