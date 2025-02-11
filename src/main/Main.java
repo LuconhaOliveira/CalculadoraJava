@@ -24,7 +24,7 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
     String key;
     public int num1 = 0;
     String numVisor = "0";
-    public String operator = "+";
+    public static String operator = "+";
     ScreenKeyboard keyboard;
     static OperationsController operationsC = new OperationsController();
 
@@ -183,8 +183,9 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
                 numVisor = "0";
                 operator = key;
             }else if (key.equals("=")){
-                numVisor = String.valueOf(operationsC.Calc(Integer.parseInt(numVisor)));
-                num1=0;
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = String.valueOf(num1);
+                num1 = 0;
                 operationsC.res = 0;
             } else if (key.equals("C")) {
                 numVisor="0";
@@ -192,6 +193,8 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
                 operationsC.res = 0;
             } else if (key.equals("<X")) {
                 numVisor=numVisor.substring(0, numVisor.length()-1);
+            } else if (key.equals("+/-")) {
+                numVisor = String.valueOf(Integer.parseInt(numVisor)*-1);
             }
         }
 
