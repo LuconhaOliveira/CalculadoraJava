@@ -2,7 +2,7 @@ package controllers;
 
 import main.Main;
 
-public class operationsController {
+public class OperationsController {
     public int res = 0;
     Main main = new Main();
     public  int Calc(int num){

@@ -1,7 +1,8 @@
 package main;
 
 import classes.ScreenKeyboard;
-import controllers.operationsController;
+import controllers.OperationsController;
+import controllers.ScreenKeyboardController;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -20,15 +21,17 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
 
     public static int WIDTH = 400, HEIGHT = 600;
 
+    String key;
     public int num1 = 0;
     String numVisor = "0";
     public String operator = "+";
     ScreenKeyboard keyboard;
-    static operationsController operationsC = new operationsController();
+    static OperationsController operationsC = new OperationsController();
 
 
     public Main() {
         this.addKeyListener(this);
+        this.addMouseListener(this);
         this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
 
         keyboard = new ScreenKeyboard();
@@ -166,6 +169,31 @@ public class Main extends Canvas implements KeyListener,MouseListener,Runnable{
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
+        if(e.getButton() == MouseEvent.BUTTON1 && e.getY()>=100){
+            key = ScreenKeyboardController.VerifyKey(e.getX(),e.getY());
+            if(key.equals("0") || key.equals("1") || key.equals("2") || key.equals("3") || key.equals("4") ||
+                    key.equals("5") || key.equals("6") || key.equals("7") || key.equals("8") || key.equals("9")){
+                if(numVisor.equals("0")) {
+                    numVisor = key;
+                }else {
+                    numVisor = numVisor+key;
+                }
+            } else if (key.equals("/")||key.equals("*")||key.equals("-")||key.equals("+")) {
+                num1 = operationsC.Calc(Integer.parseInt(numVisor));
+                numVisor = "0";
+                operator = key;
+            }else if (key.equals("=")){
+                numVisor = String.valueOf(operationsC.Calc(Integer.parseInt(numVisor)));
+                num1=0;
+                operationsC.res = 0;
+            } else if (key.equals("C")) {
+                numVisor="0";
+                num1 = 0;
+                operationsC.res = 0;
+            } else if (key.equals("<X")) {
+                numVisor=numVisor.substring(0, numVisor.length()-1);
+            }
+        }
 
     }
 
